@@ -14,11 +14,11 @@ namespace BancoSimpleProyecto.Models
         public string NumeroCuenta { get; set; }
         public decimal Saldo { get; set; }
 
-        public bool Activo = true;
+        public bool Activo { get; set; }    
 
 
         public int ClienteId { get; set; }
 
-        public List<CuentaClase> Cuenta { get; set; } = new List<CuentaClase>();
+      
     }
 }

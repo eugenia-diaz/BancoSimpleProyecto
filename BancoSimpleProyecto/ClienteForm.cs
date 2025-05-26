@@ -23,7 +23,7 @@ namespace BancoSimpleProyecto
         public void Cargar()
         {
             dgvCliente.DataSource = dbs.ClienteTabla.ToList();
-            dgvcuentas.DataSource = dbs.CuentaTabla.ToList();   
+           dgvcuentas.DataSource = dbs.CuentasTabla  .ToList();
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -35,9 +35,7 @@ namespace BancoSimpleProyecto
                 form.ShowDialog();
                 if (form.DialogResult == DialogResult.OK)
                 {
-
                     dbs.ClienteTabla.Add(form.c);
-
                     dbs.SaveChanges();
                     Cargar();
                 }
@@ -109,7 +107,7 @@ namespace BancoSimpleProyecto
                         var form = new CuentaAgregarForm(id);
                         if (form.ShowDialog() == DialogResult.OK)
                         {
-                            dbs.CuentaTabla.Add(form.NuevaCuenta);
+                            dbs.CuentasTabla.Add(form.NuevaCuenta);
                             dbs.SaveChanges();
                             Cargar();
                         }
@@ -128,4 +126,4 @@ namespace BancoSimpleProyecto
         }
     }
 }
- 
+         

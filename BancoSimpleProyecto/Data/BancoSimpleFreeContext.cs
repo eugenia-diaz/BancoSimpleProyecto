@@ -12,7 +12,7 @@ namespace BancoSimpleProyecto.Data
     {
         public DbSet<ClienteClase> ClienteTabla { get; set; }
 
-        public DbSet<CuentaClase> CuentaTabla { get; set; }
+        public DbSet<CuentaClase> CuentasTabla { get; set; }
 
         public DbSet<TransaccionClase> TransaccionTabla { get; set; }
 
