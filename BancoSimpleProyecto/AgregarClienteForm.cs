@@ -1,4 +1,7 @@
-﻿using BancoSimpleProyecto.Models;
+﻿
+using BancoSimpleProyecto.Data;
+
+using BancoSimpleProyecto.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,10 +16,14 @@ namespace BancoSimpleProyecto
 {
     public partial class AgregarClienteForm_ : Form
     {
+
         public ClienteClase c { get; set; }
+      
+       
         public AgregarClienteForm_()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
 
@@ -53,11 +60,13 @@ namespace BancoSimpleProyecto
                 if (ValidarTextBox())
                 {
 
-                   c = new ClienteClase
+                    c = new ClienteClase
                     {
                         Nombre = txtnombre.Text,
                         Identificacion = txtidentificacion.Text
                     };
+
+               
                     DialogResult = DialogResult.OK;
                     Close();
 

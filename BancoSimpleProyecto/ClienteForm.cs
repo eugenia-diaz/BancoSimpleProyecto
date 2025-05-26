@@ -1,4 +1,5 @@
 ﻿using BancoSimpleProyecto.Data;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace BancoSimpleProyecto
 {
     public partial class ClienteForm : Form
     {
-        private BancoSimpleFreeContext db = new BancoSimpleFreeContext();
+        private BancoSimpleFreeContext dbs = new BancoSimpleFreeContext();
         public ClienteForm()
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace BancoSimpleProyecto
         }
         public void Cargar()
         {
-            dgvCliente.DataSource = db.ClienteTabla.ToList();
+            dgvCliente.DataSource = dbs.ClienteTabla.ToList();
+            dgvcuentas.DataSource = dbs.CuentaTabla.ToList();   
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -33,8 +35,10 @@ namespace BancoSimpleProyecto
                 form.ShowDialog();
                 if (form.DialogResult == DialogResult.OK)
                 {
-                    db.ClienteTabla.Add(form.c);
-                    db.SaveChanges();
+
+                    dbs.ClienteTabla.Add(form.c);
+
+                    dbs.SaveChanges();
                     Cargar();
                 }
 
@@ -50,7 +54,78 @@ namespace BancoSimpleProyecto
 
         private void btnsalir_Click(object sender, EventArgs e)
         {
-            Application.Exit(); 
+            Application.Exit();
+        }
+
+        private void btnborrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (dgvCliente.CurrentRow != null)
+                {
+
+                    int id = (int)dgvCliente.CurrentRow.Cells["ClienteId"].Value;
+
+                    var encontrado = dbs.ClienteTabla.Find(id);
+                    if (encontrado != null)
+                    {
+                        dbs.ClienteTabla.Remove(encontrado); dbs.SaveChanges();
+                        Cargar();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo eliminar.", "Seleccione un cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnagregar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+           
+
+                if(dgvCliente.SelectedRows.Count == 0)
+                {
+                   
+                        MessageBox.Show("No se pudo crear", "Seleccione un cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                else
+                {
+                    if (dgvCliente.CurrentRow != null)
+                    {
+                        int id = (int)dgvCliente.CurrentRow.Cells["ClienteId"].Value;
+                        var form = new CuentaAgregarForm(id);
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            dbs.CuentaTabla.Add(form.NuevaCuenta);
+                            dbs.SaveChanges();
+                            Cargar();
+                        }
+                    }
+                  
+                }
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
+ 

@@ -5,6 +5,7 @@ namespace BancoSimpleProyecto
         public BancoForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private Form activo = null;

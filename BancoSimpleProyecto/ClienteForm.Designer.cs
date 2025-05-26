@@ -32,6 +32,8 @@
             dgvCliente = new DataGridView();
             dgvcuentas = new DataGridView();
             iconButton1 = new FontAwesome.Sharp.IconButton();
+            btnagregar = new FontAwesome.Sharp.IconButton();
+            btnborrar = new FontAwesome.Sharp.IconButton();
             iconButton2 = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dgvCliente).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvcuentas).BeginInit();
@@ -89,19 +91,53 @@
             iconButton1.UseVisualStyleBackColor = true;
             iconButton1.Click += iconButton1_Click;
             // 
+            // btnagregar
+            // 
+            btnagregar.FlatAppearance.BorderSize = 0;
+            btnagregar.FlatStyle = FlatStyle.Flat;
+            btnagregar.IconChar = FontAwesome.Sharp.IconChar.FileCirclePlus;
+            btnagregar.IconColor = Color.Black;
+            btnagregar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnagregar.IconSize = 35;
+            btnagregar.Location = new Point(680, 535);
+            btnagregar.Name = "btnagregar";
+            btnagregar.Size = new Size(214, 34);
+            btnagregar.TabIndex = 5;
+            btnagregar.Text = "Agregar cuenta";
+            btnagregar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnagregar.UseVisualStyleBackColor = true;
+            btnagregar.Click += btnagregar_Click;
+            // 
+            // btnborrar
+            // 
+            btnborrar.FlatAppearance.BorderSize = 0;
+            btnborrar.FlatStyle = FlatStyle.Flat;
+            btnborrar.IconChar = FontAwesome.Sharp.IconChar.Trash;
+            btnborrar.IconColor = Color.Black;
+            btnborrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnborrar.IconSize = 25;
+            btnborrar.Location = new Point(99, 600);
+            btnborrar.Name = "btnborrar";
+            btnborrar.Size = new Size(214, 34);
+            btnborrar.TabIndex = 6;
+            btnborrar.Text = "Eliminar Cliente";
+            btnborrar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnborrar.UseVisualStyleBackColor = true;
+            btnborrar.Click += btnborrar_Click;
+            // 
             // iconButton2
             // 
             iconButton2.FlatAppearance.BorderSize = 0;
             iconButton2.FlatStyle = FlatStyle.Flat;
-            iconButton2.IconChar = FontAwesome.Sharp.IconChar.FileCirclePlus;
+            iconButton2.IconChar = FontAwesome.Sharp.IconChar.PauseCircle;
             iconButton2.IconColor = Color.Black;
             iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton2.IconSize = 35;
-            iconButton2.Location = new Point(680, 535);
+            iconButton2.IconSize = 25;
+            iconButton2.Location = new Point(680, 600);
             iconButton2.Name = "iconButton2";
             iconButton2.Size = new Size(214, 34);
-            iconButton2.TabIndex = 5;
-            iconButton2.Text = "Agregar cuenta";
+            iconButton2.TabIndex = 7;
+            iconButton2.Text = "Desactivar cuenta";
             iconButton2.TextImageRelation = TextImageRelation.ImageBeforeText;
             iconButton2.UseVisualStyleBackColor = true;
             // 
@@ -111,6 +147,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1046, 682);
             Controls.Add(iconButton2);
+            Controls.Add(btnborrar);
+            Controls.Add(btnagregar);
             Controls.Add(iconButton1);
             Controls.Add(dgvcuentas);
             Controls.Add(dgvCliente);
@@ -129,6 +167,8 @@
         private DataGridView dgvCliente;
         private DataGridView dgvcuentas;
         private FontAwesome.Sharp.IconButton iconButton1;
+        private FontAwesome.Sharp.IconButton btnagregar;
+        private FontAwesome.Sharp.IconButton btnborrar;
         private FontAwesome.Sharp.IconButton iconButton2;
     }
 }
