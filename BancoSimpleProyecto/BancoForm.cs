@@ -1,77 +1,65 @@
+using System;
+using System.Windows.Forms;
+
 namespace BancoSimpleProyecto
 {
     public partial class BancoForm : Form
     {
+        private Form _formActivo;
+
         public BancoForm()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
-        private Form activo = null;
-
-        private void Abrir(Form nuevo)
+        private void AbrirFormulario(Form nuevoFormulario)
         {
-            if (activo != null)
+            if (_formActivo != null && _formActivo.GetType() != nuevoFormulario.GetType())
             {
-
-                if (activo.GetType() != nuevo.GetType())
-                {
-                    activo.Close();
-                    activo.Dispose();
-                }
-
-
+                _formActivo.Close();
+                _formActivo.Dispose();
             }
 
-            activo = nuevo;
-            activo.TopLevel = false;
-            activo.FormBorderStyle = FormBorderStyle.None;
-            activo.Dock = DockStyle.Fill;
+            _formActivo = nuevoFormulario;
+            _formActivo.TopLevel = false;
+            _formActivo.FormBorderStyle = FormBorderStyle.None;
+            _formActivo.Dock = DockStyle.Fill;
 
             panelBanco.Controls.Clear();
-            panelBanco.Controls.Add(activo);
-            activo.BringToFront();
-            activo.Show();
-
-
-
-
+            panelBanco.Controls.Add(_formActivo);
+            _formActivo.BringToFront();
+            _formActivo.Show();
         }
 
-        private void iconButton1_Click(object sender, EventArgs e)
+        private void btnClientes_Click(object sender, EventArgs e)
         {
             try
             {
-                var clienteF = new ClienteForm();
-                Abrir(clienteF);
-
+                AbrirFormulario(new ClienteForm());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message
-                    );
+                MessageBox.Show($"Error al abrir formulario de clientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void iconButton3_Click(object sender, EventArgs e)
+        private void btnTransacciones_Click(object sender, EventArgs e)
         {
             try
             {
-                var transaccionf = new TransaccionForm();
-                Abrir(transaccionf);
-
+                AbrirFormulario(new TransaccionForm());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message
-                    );
+                MessageBox.Show($"Error al abrir formulario de transacciones: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnsalir_Click(object sender, EventArgs e)
+        private void btnSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
     }
 }
+
