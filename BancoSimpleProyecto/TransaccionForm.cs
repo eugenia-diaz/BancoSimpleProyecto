@@ -16,5 +16,10 @@ namespace BancoSimpleProyecto
         {
             InitializeComponent();
         }
+
+        private void btnsalir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

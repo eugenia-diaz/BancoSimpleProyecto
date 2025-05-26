@@ -46,6 +46,7 @@
             btnsalir.Text = "Salir";
             btnsalir.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnsalir.UseVisualStyleBackColor = true;
+            btnsalir.Click += btnsalir_Click;
             // 
             // TransaccionForm
             // 

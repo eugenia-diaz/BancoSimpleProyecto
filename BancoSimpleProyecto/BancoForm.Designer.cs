@@ -44,7 +44,7 @@
             panelMenu.Dock = DockStyle.Left;
             panelMenu.Location = new Point(0, 0);
             panelMenu.Name = "panelMenu";
-            panelMenu.Size = new Size(180, 612);
+            panelMenu.Size = new Size(180, 706);
             panelMenu.TabIndex = 0;
             // 
             // iconButton3
@@ -90,7 +90,7 @@
             panelBanco.Controls.Add(btnsalir);
             panelBanco.Location = new Point(186, 12);
             panelBanco.Name = "panelBanco";
-            panelBanco.Size = new Size(965, 600);
+            panelBanco.Size = new Size(1046, 682);
             panelBanco.TabIndex = 1;
             // 
             // btnsalir
@@ -101,7 +101,7 @@
             btnsalir.IconColor = Color.Black;
             btnsalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnsalir.IconSize = 35;
-            btnsalir.Location = new Point(850, 563);
+            btnsalir.Location = new Point(931, 645);
             btnsalir.Name = "btnsalir";
             btnsalir.Size = new Size(112, 34);
             btnsalir.TabIndex = 0;
@@ -114,7 +114,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1163, 612);
+            ClientSize = new Size(1230, 706);
             Controls.Add(panelBanco);
             Controls.Add(panelMenu);
             DoubleBuffered = true;
