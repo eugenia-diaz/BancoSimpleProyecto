@@ -1,130 +1,110 @@
 ﻿using BancoSimpleProyecto.Data;
-
+using BancoSimpleProyecto.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BancoSimpleProyecto
 {
     public partial class ClienteForm : Form
     {
-        private BancoSimpleFreeContext dbs = new BancoSimpleFreeContext();
         public ClienteForm()
         {
             InitializeComponent();
-            Cargar();
+            CargarDatos();
         }
-        public void Cargar()
+
+        private void CargarDatos()
         {
-            dgvCliente.DataSource = dbs.ClienteTabla.ToList();
-           dgvcuentas.DataSource = dbs.CuentasTabla  .ToList();
+            using var contexto = new BancoSimpleFreeContext();
+            dgvCliente.DataSource = contexto.ClienteTabla.ToList();
+            dgvcuentas.DataSource = contexto.CuentasTabla.ToList();
         }
 
-        private void iconButton1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var form = new AgregarClienteForm_
-                    ();
-                form.ShowDialog();
-                if (form.DialogResult == DialogResult.OK)
-                {
-                    dbs.ClienteTabla.Add(form.c);
-                    dbs.SaveChanges();
-                    Cargar();
-                }
-
-
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void btnsalir_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void btnborrar_Click(object sender, EventArgs e)
+        private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
             try
             {
-
-                if (dgvCliente.CurrentRow != null)
+                using var form = new AgregarClienteForm();
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-
-                    int id = (int)dgvCliente.CurrentRow.Cells["ClienteId"].Value;
-
-                    var encontrado = dbs.ClienteTabla.Find(id);
-                    if (encontrado != null)
-                    {
-                        dbs.ClienteTabla.Remove(encontrado); dbs.SaveChanges();
-                        Cargar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se pudo eliminar.", "Seleccione un cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-
-
+                    using var contexto = new BancoSimpleFreeContext();
+                    contexto.ClienteTabla.Add(form.Cliente);
+                    contexto.SaveChanges();
+                    CargarDatos();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Error al agregar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnagregar_Click(object sender, EventArgs e)
+        private void btnEliminarCliente_Click(object sender, EventArgs e)
         {
             try
             {
-
-           
-
-                if(dgvCliente.SelectedRows.Count == 0)
+                var cliente = ObtenerClienteSeleccionado();
+                if (cliente == null)
                 {
-                   
-                        MessageBox.Show("No se pudo crear", "Seleccione un cliente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-                else
-                {
-                    if (dgvCliente.CurrentRow != null)
-                    {
-                        int id = (int)dgvCliente.CurrentRow.Cells["ClienteId"].Value;
-                        var form = new CuentaAgregarForm(id);
-                        if (form.ShowDialog() == DialogResult.OK)
-                        {
-                            dbs.CuentasTabla.Add(form.NuevaCuenta);
-                            dbs.SaveChanges();
-                            Cargar();
-                        }
-                    }
-                  
+                    MessageBox.Show("Seleccione un cliente válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-
-
-
+                using var contexto = new BancoSimpleFreeContext();
+                contexto.ClienteTabla.Remove(cliente);
+                contexto.SaveChanges();
+                CargarDatos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message)
-                    ;
+                MessageBox.Show($"Error al eliminar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private ClienteClase ObtenerClienteSeleccionado()
+        {
+            if (dgvCliente.CurrentRow == null)
+                return null;
+
+            var id = (int)dgvCliente.CurrentRow.Cells["ClienteId"].Value;
+
+            using var contexto = new BancoSimpleFreeContext();
+            return contexto.ClienteTabla.Find(id);
+        }
+
+        private void btnAgregarCuenta_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var cliente = ObtenerClienteSeleccionado();
+                if (cliente == null)
+                {
+                    MessageBox.Show("Seleccione un cliente antes de agregar una cuenta.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using var form = new CuentaAgregarForm(cliente.ClienteId);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    using var contexto = new BancoSimpleFreeContext();
+                    contexto.CuentasTabla.Add(form.NuevaCuenta);
+                    contexto.SaveChanges();
+                    CargarDatos();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al agregar cuenta: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
+
          
