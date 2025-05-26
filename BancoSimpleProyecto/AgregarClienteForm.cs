@@ -1,109 +1,65 @@
 ﻿
-using BancoSimpleProyecto.Data;
-
 using BancoSimpleProyecto.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BancoSimpleProyecto
 {
-    public partial class AgregarClienteForm_ : Form
+    public partial class AgregarClienteForm : Form
     {
+        public ClienteClase Cliente { get; private set; }
 
-        public ClienteClase c { get; set; }
-      
-       
-        public AgregarClienteForm_()
+        public AgregarClienteForm()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-        }
-
-
-        //utilizaomos una herramienta de nuestro cuadro de herramientas errorprovider para que el usuario sepa cuales txtbox no dejar en blanco
-        //asi mismo, al utilizar el bool no deja que el usuario pase hasta llenar los campos
-        public bool ValidarTextBox()
-        {
-            bool vali = true;
-
-            if (txtnombre.Text == string.Empty)
-            {
-                vali = false;
-                errorProvider1.SetError(txtnombre, "Llene el campo");
-
-            }
-            if (txtidentificacion.Text == string.Empty)
-            {
-                vali = false;
-                errorProvider1.SetError(txtidentificacion, "Llene el campo");
-
-            }
-            return vali;
-
-
-
+            StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!ValidarCampos())
+                    return;
 
-
-                if (ValidarTextBox())
+                Cliente = new ClienteClase
                 {
+                    Nombre = txtnombre.Text.Trim(),
+                    Identificacion = txtidentificacion.Text.Trim()
+                };
 
-                    c = new ClienteClase
-                    {
-                        Nombre = txtnombre.Text,
-                        Identificacion = txtidentificacion.Text
-                    };
-
-               
-                    DialogResult = DialogResult.OK;
-                    Close();
-
-
-                }
-
-
-
-
-
-
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Error al agregar cliente: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-             
         }
 
-        private void btncancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            try
+            Close();
+        }
+
+        private bool ValidarCampos()
+        {
+            errorProvider1.Clear();
+            bool esValido = true;
+
+            if (string.IsNullOrWhiteSpace(txtnombre.Text))
             {
-
-
-
-                MessageBox.Show("Cancelado", "Cancelado", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-
-
-
-
+                errorProvider1.SetError(txtnombre, "El nombre es obligatorio.");
+                esValido = false;
             }
-            catch (Exception ex)
+
+            if (string.IsNullOrWhiteSpace(txtidentificacion.Text))
             {
-                MessageBox.Show(ex.Message);
+                errorProvider1.SetError(txtidentificacion, "La identificación es obligatoria.");
+                esValido = false;
             }
+
+            return esValido;
         }
     }
 }
