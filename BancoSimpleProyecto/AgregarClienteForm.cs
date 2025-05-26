@@ -53,7 +53,7 @@ namespace BancoSimpleProyecto
                 if (ValidarTextBox())
                 {
 
-                  var  c = new ClienteClase
+                   c = new ClienteClase
                     {
                         Nombre = txtnombre.Text,
                         Identificacion = txtidentificacion.Text
